@@ -26,10 +26,6 @@ streamlit.header("Fruityvice Fruit Advice!")
 fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
 streamlit.write('The user entered ', fruit_choice)
 
-#Allow enduser to add a fruit
-streamlit.header("Fruityvice Fruit Advice!")
-add_my_fruit = streamlit.text_input('What fruit would you like to add?','jackfruit')
-streamlit.write('Thanks for adding ', add_my_fruit)
 
 
 import requests
@@ -41,6 +37,9 @@ fruityvice_normalized = pandas.json_normalize(fruityvice_response.json())
 # output it the screen as a table
 streamlit.dataframe(fruityvice_normalized)
 
+#dont run anything past this
+streamlit.stop()
+
 import snowflake.connector
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
@@ -51,5 +50,9 @@ streamlit.header("The fruit load list contains:")
 streamlit.dataframe(my_data_rows)
 
 
+#Allow enduser to add a fruit
+streamlit.header("Fruityvice Fruit Advice!")
+add_my_fruit = streamlit.text_input('What fruit would you like to add?','jackfruit')
+streamlit.write('Thanks for adding ', add_my_fruit)
 
 my_cur.execute("insert into PC_RIVERY_DB.PUBLIC.FRUIT_LOAD_LIST values('from streamlit')")
